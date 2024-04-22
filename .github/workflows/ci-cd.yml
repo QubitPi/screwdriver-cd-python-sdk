@@ -78,7 +78,7 @@ jobs:
           git pull
           VERSION=$(git describe)
           echo "INFO Last tag: $VERSION"
-          cat setup.py | sed -i "s/    version=\"1.0.0\",/    version=\"$NEW_VERSION\",/"
+          cat setup.py | sed -i "s/    version=\"1.0.0\",/    version=\"$VERSION\",/"
       - name: Package up SDK
         run: python setup.py sdist
       - name: Publish a Python distribution to PyPI
