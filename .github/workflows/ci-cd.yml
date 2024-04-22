@@ -44,11 +44,21 @@ jobs:
   push-release-tag:
     needs: tests
     if: github.ref == 'refs/heads/master'
-    uses: QubitPi/hashicorp-aws/.github/workflows/version-bump.yml@master
-    with:
-      user: QubitPi
-      email: jack20220723@gmail.com
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Download auto-version bump scripts
+        run: |
+          git clone https://github.com/QubitPi/hashicorp-aws.git ../hashicorp-aws
+          cp ../hashicorp-aws/.github/version-bump/tag-for-release.bash .github/
+          cp ../hashicorp-aws/.github/version-bump/upversion.py .github/
+      - name: Tag for release
+        run: |
+          git config --global user.name QubitPi
+          git config --global user.email jack20220723@gmail.com
+          .github/tag-for-release.bash
 
   release:
     name: Publish Python SDK To PyPI
