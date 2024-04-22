@@ -48,10 +48,12 @@ jobs:
     with:
       user: QubitPi
       email: jack20220723@gmail.com
+    secrets: inherit
 
   release:
     name: Publish Python SDK To PyPI
     if: github.ref == 'refs/heads/master'
+    needs: push-release-tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
