@@ -21,6 +21,9 @@ To install the SDK, simply run
 pip install screwdriver-cd-python-sdk
 ```
 
+Please visit [Screwdriver CD Python SDK documentation](https://screwdriver-cd-python-sdk.readthedocs.io/en/latest/) for
+more details
+
 License
 -------
 
