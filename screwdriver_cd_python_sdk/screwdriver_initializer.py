@@ -108,25 +108,6 @@ def initialize(pipelines_config_path: str, screwdriver_api_url: str, token: str)
                 token=token
             )["id"]
 
-        if "awsCredentialFile" in pipeline:
-            with open(pipeline["awsCredentialFile"], 'r') as file:
-                lines = csv.reader(file)
-                for i, row in enumerate(lines):
-                    if i == 1:
-                        create_or_update_secret(
-                            secret_name="AWS_ACCESS_KEY_ID",
-                            secret_value=row[0],
-                            pipeline_id=pipeline_id,
-                            screwdriver_api_url=screwdriver_api_url,
-                            token=token
-                        )
-                        create_or_update_secret(
-                            secret_name="AWS_SECRET_ACCESS_KEY",
-                            secret_value=row[1],
-                            pipeline_id=pipeline_id,
-                            screwdriver_api_url=screwdriver_api_url,
-                            token=token
-                        )
         if pipeline["secrets"]:
             for secret in pipeline["secrets"]:
                 if secret["type"] == "value":
