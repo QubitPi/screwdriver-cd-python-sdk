@@ -37,6 +37,86 @@ def create_or_update_secret(
         token: str
 ) -> None:
     """
+    Create or update a secret of a Screwdriver pipeline.
+
+    Example usage:
+
+    .. code-block:: console
+
+        pip3 install screwdriver-cd-python-sdk
+
+    .. highlight:: python
+    .. code-block:: python
+
+        import argparse
+        import requests
+
+        from screwdriver_cd_python_sdk.secrets import create_or_update_secret
+
+        SCREWDRIVER_API_SERVER_URL = "screwdriver-api.mycompany.com"
+        SCREWDRIVER_API_TOKEN      = requests.get(
+            "{url}/v4/auth/token".format(url=SCREWDRIVER_API_SERVER_URL)
+        ).json()["token"]
+
+
+        def __loadFromFileByPath(filePath) -> str:
+            with open(filePath, 'r') as file:
+                return file.read().rstrip()
+
+
+        def __load_all_secrets() -> list[dict]:
+            return [
+                {
+                    "pipeline": "QubitPi/my-github-repo",
+                    "pipelineId": 77,
+                    "secretName": "MY_SCREWDRIVER_SECRET_1",
+                    "secreteValue": __loadFromFileByPath("/abs/or/relative/path/to/MY_SCREWDRIVER_SECRET_1"),
+                    "screwdriverApiUrl": SCREWDRIVER_API_SERVER_URL,
+                    "token": SCREWDRIVER_API_TOKEN
+                },
+                {
+                    "pipeline": "QubitPi/my-github-repo",
+                    "pipelineId": 77,
+                    "secretName": "MY_SCREWDRIVER_SECRET_2",
+                    "secreteValue": __loadFromFileByPath("/abs/or/relative/path/to/MY_SCREWDRIVER_SECRET_2"),
+                    "screwdriverApiUrl": SCREWDRIVER_API_SERVER_URL,
+                    "token": SCREWDRIVER_API_TOKEN
+                },
+            ]
+
+        if __name__ == "__main__":
+            parser = argparse.ArgumentParser(description='UPSERT a single Screwdriver Secret')
+            parser.add_argument('-n', '--name', help='The Screwdriver secret name', required=True)
+            parser.add_argument('-v', '--value', help='The Screwdriver secret value', required=True)
+            parser.add_argument(
+                '-i',
+                '--id',
+                help='The ID of the Screwdriver pipeline that receives the secret',
+                required=True
+            )
+            parser.add_argument(
+                '-u',
+                '--url',
+                help='The URL of the Screwdriver API server. For example: "screwdriver-api.mycompany.com"',
+                required=True
+            )
+            parser.add_argument(
+                '-t',
+                '--token',
+                help='The Screwdriver API token obtained via "https://screwdriver-api.mycompany.com/v4/auth/token"',
+                required=True
+            )
+            args = vars(parser.parse_args())
+
+            create_or_update_secret(
+                secret_name=args["name"],
+                secret_value=args["value"],
+                pipeline_id=args["id"],
+                screwdriver_api_url=args["url"],
+                token=args["token"]
+            )
+
+
     "allowInPR" is set to be false by default
 
     :param secret_name:

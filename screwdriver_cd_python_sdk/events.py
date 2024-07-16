@@ -22,9 +22,9 @@ def start_build(pipeline_id: int, screwdriver_api_url: str, token: str) -> objec
     """
     Creates and starts a pipeline build.
 
-    :param pipeline_id:  The ID of the pipeline to trigger the build
-    :param screwdriver_api_url:  The URL of the Screwdriver API server. For example: http://192.168.7.2:9001 or
-           https://mysd.com
+    :param pipeline_id:  The ID (integer) of the pipeline to trigger the build. For example: `14`
+    :param screwdriver_api_url:  The URL of the Screwdriver API server. For example: `http://192.168.7.2:9001` or
+           `https://myscrewdriver.com`
     :param token:  The Screwdriver API token
 
     :return:  The exact same response body as the "POST /v4/events" Swagger API in JSON
