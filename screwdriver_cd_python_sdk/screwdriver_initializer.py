@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import csv
 import json
 import logging
 
@@ -80,8 +79,38 @@ def initialize(pipelines_config_path: str, screwdriver_api_url: str, token: str)
 
     Note that both value and file based secrets are supported as shown in the example above
 
+    We can now iterate each pipeline and initialize them using the script below
+
+    .. code-block:: console
+
+        pip3 install screwdriver-cd-python-sdk
+
+    .. highlight:: python
+    .. code-block:: python
+
+        import argparse
+        from screwdriver_cd_python_sdk.screwdriver_initializer import initialize
+
+        if __name__ == "__main__":
+            parser = argparse.ArgumentParser(description='Initiate all pipelines of Screwdriver CD')
+            parser.add_argument(
+                '-t',
+                '--token',
+                help='Screwdriver API Token - https://screwdriver-docs.qubitpi.org/user-guide/api',
+                required=True
+            )
+            args = vars(parser.parse_args())
+            token = args['token']
+
+            initialize(
+                pipelines_config_path="pipelines.json",
+                screwdriver_api_url="https://screwdriver-api.mycompany.com",
+                token=token
+            )
+
     :param pipelines_config_path:  The absolute JSON file containing Screwdriver pipeline definitions
-    :param screwdriver_api_url:  The Screwdriver API URL. For example, https://screwdriver.mycompany.com
+    :param screwdriver_api_url:  The Screwdriver API URL. For example, "screwdriver-api.mycompany.com". See
+                                 https://screwdriver-docs.qubitpi.org/user-guide/api for more information.
     :param token:  `The Screwdriver API Token <https://screwdriver-docs.qubitpi.org/user-guide/tokens.html>`_
     """
     with open(pipelines_config_path, 'r') as file:

@@ -20,4 +20,3 @@ Checklist
 - [ ] Test
 - [ ] Self-review
 - [ ] Documentation
-- [ ] Version Bumped Manually*
